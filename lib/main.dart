@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -5,104 +6,192 @@ void main() => runApp(const MyApp());
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  static const String _title = 'Flutter Code Sample';
-
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: _title,
-      home: MyStatefulWidget(),
+    const appTitle = 'Add Two Numbers';
+
+    return MaterialApp(
+      title: appTitle,
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text(appTitle),
+        ),
+        body: AddTwoNumbers(),
+      ),
     );
   }
 }
 
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class AddTwoNumbers extends StatefulWidget {
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+  _AddTwoNumbersState createState() => _AddTwoNumbersState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  late TextEditingController _controller;
+class _AddTwoNumbersState extends State<AddTwoNumbers> {
+  TextEditingController num1controller = new TextEditingController();
+  TextEditingController num2controller = new TextEditingController();
+  String result = "0";
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
+
+
+
+  //memo
+
+  final memo ={} ;
+
+
+
+
+
+
+
+
+//Sum Fuction 
+
+  sumFunc(){
+    int x=int.parse(num1controller.text);
+    int y=int.parse(num2controller.text);
+
+    //k : v
+
+
+
+    print (memo);
+    memo['$x+$y']!=null?
+    setState(() {
+
+
+
+      result =  memo['$x+$y'];
+
+
+
+    })
+
+
+        :Future.delayed(Duration(milliseconds: 4000), () {
+
+
+
+
+      setState(() {
+
+
+        int sum = x + y;
+        result = sum.toString();
+        memo['$x+$y']= result ;
+
+
+
+      });
+
+
+
+
+
+    });
+
+
+
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child:
-        Column(
-
-            children:<Widget> [
-
-              TextField(
-                controller: _controller,
-                onSubmitted: (String value) async {
-                  await showDialog<void>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Thanks!'),
-                        content: Text(
-                            'You typed "$value", which has length ${value.characters.length}.'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Text("Number 1:"),
+              new Flexible(
+                child: new TextField(
+                  keyboardType: TextInputType.number,
+                  controller: num1controller,
+                ),
               ),
-
-
-
-
-              TextField(
-                controller: _controller,
-                onSubmitted: (String value) async {
-                  await showDialog<void>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Thanks!'),
-                        content: Text(
-                            'You typed "$value", which has length ${value.characters.length}.'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Text("Number 2:"),
+              new Flexible(
+                child: new TextField(
+                  keyboardType: TextInputType.number,
+                  controller: num2controller,
+                ),
               ),
-
-
-
-
-            ]
-        ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                child: Text("Add"),
+                onPressed : () {
+                  sumFunc();
+                },
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text("Result:",
+                style: TextStyle(
+                  fontSize: 30,
+                ),),
+              Text(result,
+                style: TextStyle(
+                  fontSize: 30,
+                ),),
+            ],
+          ),
+        ],
       ),
     );
   }
